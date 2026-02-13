@@ -13,7 +13,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     links: [{ rel: 'icon', href: '/images/favicon.ico' }],
     meta: [
       {
-        title: 'TanStack Router SSR Basic File Based Streaming',
+        title: 'Movie Vault App to show off movies and add them to a wishlist',
       },
       {
         charSet: 'UTF-8',
@@ -24,9 +24,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
     ],
     scripts: [
-      {
-        src: 'https://unpkg.com/@tailwindcss/browser@4',
-      },
       ...(!import.meta.env.PROD
         ? [
             {
