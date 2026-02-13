@@ -48,10 +48,10 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
     ],
   }),
-  component: RootComponent,
+  component: RootLayout,
 })
 
-function RootComponent() {
+function RootLayout() {
   return (
     <html lang="en">
       <head>
