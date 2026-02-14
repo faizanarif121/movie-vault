@@ -6,7 +6,12 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
-import type { RouterContext } from '../routerContext'
+import type { QueryClient } from '@tanstack/react-query'
+
+interface RouterContext {
+  queryClient: QueryClient
+  head: string
+}
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
@@ -58,7 +63,7 @@ function RootLayout() {
         <HeadContent />
       </head>
       <body>
-        <div className="p-2 flex gap-2 text-lg">
+        <div>
         <div>
       <Link to="/">
         Home
