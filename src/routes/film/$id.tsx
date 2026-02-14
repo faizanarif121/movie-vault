@@ -1,12 +1,18 @@
 import { filmDetailQueryOptions } from '@/hooks/rq/useFilmDetails';
 import FilmDetailsPage from '@/pages/FilmDetailsPage';
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
+
+type FilmSearchParams = {
+  category?: string;
+};
 
 export const Route = createFileRoute('/film/$id')({
-  loader: async ({ context, params }) => {
-    const { id } = params;
-    if (!id) throw new Error('Film ID is required');
-    context.queryClient.ensureQueryData(filmDetailQueryOptions(Number(id)))
+  validateSearch: (search: Record<string, unknown>): FilmSearchParams => ({
+    category: (search.category as string) || undefined,
+  }),
+  loader: ({ context, params }) => {
+    const filmId = Number(params.id);
+    context.queryClient.ensureQueryData(filmDetailQueryOptions(filmId))
   },
   component: FilmDetailsPage,
-})
+});

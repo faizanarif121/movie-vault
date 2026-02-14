@@ -495,44 +495,6 @@ button {
 }
 
 
-.similar-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: $space-lg;
-
-  @media (min-width: $bp-md) {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
-  &__card {
-    display: flex;
-    flex-direction: column;
-    gap: $space-sm;
-    transition: transform $transition-base;
-
-    &:hover {
-      transform: translateY(-4px);
-    }
-  }
-
-  &__image {
-    width: 100%;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
-    border-radius: $radius-md;
-  }
-
-  &__title {
-    font-size: 0.8rem;
-    font-weight: 500;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-}
-
-
 .wishlist {
   max-width: $container-max;
   margin: 0 auto;

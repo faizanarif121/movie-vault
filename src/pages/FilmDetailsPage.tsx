@@ -1,18 +1,25 @@
+import type { CategorySlug } from '@/constants';
 import { Route } from '../routes/film/$id';
 import { useFilmDetail } from '@/hooks/rq/useFilmDetails';
-import { useSimilarFilms } from '@/hooks/rq/useSimilarFilms';
 import { imageService } from '@/services/image.service';
-import { Link } from '@tanstack/react-router';
+import { useWishlistStore, useWishlistHydration } from '@/store/wishlist';
+import { getCategoryByGenreIds } from '@/utils/category.utils';
 
 const FilmDetailsPage = () => {
   const { id } = Route.useParams();
   const filmId = Number(id);
 
   const { data: film } = useFilmDetail(filmId);
-  const { data: similar } = useSimilarFilms(filmId);
+
+  const hasHydrated = useWishlistHydration();
+  const { isInWishlist, toggleWishlist } = useWishlistStore();
+
+  const category: CategorySlug = getCategoryByGenreIds(film.genres.map((g) => g.id));
+
+  const inWishlist = hasHydrated && isInWishlist(film.id);
 
   return (
-    <div className={`film-detail theme--action`}>
+    <div className={`film-detail theme--${category}`}>
       {film.backdrop_path && (
         <div
           className="film-detail__backdrop"
@@ -60,7 +67,12 @@ const FilmDetailsPage = () => {
             </div>
 
             <p className="film-detail__overview">{film.overview}</p>
-
+            <button
+              className={`btn btn--${category} ${inWishlist ? 'btn--active' : ''}`}
+              onClick={() => toggleWishlist(film)}
+            >
+              {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+            </button>
           </div>
         </div>
 
@@ -103,30 +115,6 @@ const FilmDetailsPage = () => {
             )}
           </div>
         </div>
-
-        {similar.length > 0 && (
-          <div className="film-detail__section">
-          <h2 className="film-detail__heading">Similar Films</h2>
-          <div className="similar-grid">
-            {similar.map((s) => (
-              <Link
-                key={s.id}
-                to="/film/$id"
-                params={{ id: String(s.id) }}
-                className="similar-grid__card"
-              >
-                <img
-                  src={imageService.getPosterUrl(s.poster_path, 'w185')}
-                  alt={s.title}
-                  className="similar-grid__image"
-                  loading="lazy"
-                />
-                <span className="similar-grid__title">{s.title}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-        )}
       </div>
     </div>
   );
