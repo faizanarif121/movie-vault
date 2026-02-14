@@ -1,4 +1,4 @@
-import type { Film, FilmResponse } from '@/types/film.types';
+import type { Film, FilmDetail, FilmResponse } from '@/types/film.types';
 import { apiClient } from './api-client';
 
 export const filmService = {
@@ -12,5 +12,8 @@ export const filmService = {
     });
     
     return results;
+  },
+  async getById(id: number): Promise<FilmDetail> {
+    return apiClient.fetch<FilmDetail>(`/movie/${id}`);
   },
 };
