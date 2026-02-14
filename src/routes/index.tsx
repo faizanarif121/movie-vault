@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { homeFilmsQueryOptions } from '../hooks/rq/useHomeFilms';
+import { HomePage } from '../pages/HomePage';
 
 export const Route = createFileRoute('/')({
-  component: Film,
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(homeFilmsQueryOptions()),
+  component: HomePage,
 })
-
-function Film() {
-  return <div className="p-2">Hello from Film!</div>
-}
