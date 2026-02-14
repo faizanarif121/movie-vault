@@ -2,7 +2,7 @@ import type { CategorySlug } from '@/constants';
 import { Route } from '../routes/film/$id';
 import { useFilmDetail } from '@/hooks/rq/useFilmDetails';
 import { imageService } from '@/services/image.service';
-import { useWishlistStore, useWishlistHydration } from '@/store/wishlist';
+import { useWishlistStore, useWishlistHydration } from '@/stores/wishlist';
 import { getCategoryByGenreIds } from '@/utils/category.utils';
 
 const FilmDetailsPage = () => {

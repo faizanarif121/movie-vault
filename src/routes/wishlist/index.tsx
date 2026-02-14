@@ -1,9 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { WishlistPage } from '@/pages/WishlistPage';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/wishlist/')({
-  component: Wishlist,
-})
-
-function Wishlist() {
-  return <div className="p-2">Hello from Wishlist!</div>
-}
+  component: WishlistPage,
+});
