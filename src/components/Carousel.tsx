@@ -1,6 +1,7 @@
 import type { CategorySlug } from '@/constants';
 import type { Film } from '@/types/film.types';
 import {imageService} from '../services/image.service';
+import { Link } from '@tanstack/react-router';
 
 interface CarouselProps {
   title: string;
@@ -14,7 +15,7 @@ const Carousel = ({ title, films, category }: CarouselProps) => {
       <h2>{title}</h2>
       <div style={{display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', overflowX: 'scroll'}}>
         {films.map((film) => (
-          <div key={film.id}>
+          <Link to='/film/$id' params={{id: String(film.id)}} key={film.id}>
             {film.poster_path && (
               <img
                 src={imageService.getPosterUrl(film.poster_path, 'w342')}
@@ -23,7 +24,7 @@ const Carousel = ({ title, films, category }: CarouselProps) => {
               />
             )}
             <p>{film.title}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
