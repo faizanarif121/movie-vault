@@ -16,4 +16,8 @@ export const filmService = {
   async getById(id: number): Promise<FilmDetail> {
     return apiClient.fetch<FilmDetail>(`/movie/${id}`);
   },
+  async getSimilar(id: number, limit = 6): Promise<Film[]> {
+    const { results } = await apiClient.fetch<FilmResponse>(`/movie/${id}/similar`);
+    return results.slice(0, limit);
+  },
 };

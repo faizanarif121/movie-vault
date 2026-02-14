@@ -15,7 +15,6 @@ export function HomePage() {
           <Carousel
             key={category.slug}
             title={category.name}
-            category={category.slug}
             films={films}
           />
         ))}
