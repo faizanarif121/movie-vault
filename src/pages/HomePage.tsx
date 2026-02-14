@@ -5,16 +5,17 @@ export function HomePage() {
   const { data } = useHomeFilms();
 
   return (
-    <div  style={{padding: 10}}>
-      <section>
-        <h1>Discover Films</h1>
-        <p>Browse by category and find your next favourite film</p>
+    <div className="home">
+      <section className="home__hero">
+        <h1 className="home__title">Discover Films</h1>
+        <p className="home__subtitle">Browse by category and find your next favourite film</p>
       </section>
-      <div>
+      <div className="home__carousels">
         {data.map(({ category, films }) => (
           <Carousel
             key={category.slug}
             title={category.name}
+            category={category.slug}
             films={films}
           />
         ))}

@@ -1,31 +1,27 @@
 import type { Film } from '@/types/film.types';
-import {imageService} from '../services/image.service';
-import { Link } from '@tanstack/react-router';
+import FilmCard from './FilmCard';
+import type { CategorySlug } from '@/constants';
 
 interface CarouselProps {
   title: string;
   films: Film[];
+  category: CategorySlug;
 }
 
-const Carousel = ({ title, films }: CarouselProps) => {
+const Carousel = ({ title, films, category }: CarouselProps) => {
   return (
-    <div key={title}>
-      <h2>{title}</h2>
-      <div style={{display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', overflowX: 'scroll'}}>
+    <section className={`carousel carousel--${category || 'default'}`}>
+      <div className="carousel__header">
+        <h2 className="carousel__title">{title}</h2>
+      </div>
+      <div className="carousel__track">
         {films.map((film) => (
-          <Link to='/film/$id' params={{id: String(film.id)}} key={film.id}>
-            {film.poster_path && (
-              <img
-                src={imageService.getPosterUrl(film.poster_path, 'w342')}
-                alt={film.title}
-                fetchPriority="low"
-              />
-            )}
-            <p>{film.title}</p>
-          </Link>
+          <div className="carousel__item" key={film.id}>
+            <FilmCard film={film} category={category} />
+          </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -1,12 +1,11 @@
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import {
   HeadContent,
-  Link,
   Outlet,
-  Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import type { QueryClient } from '@tanstack/react-query'
+import { Header } from '@/components/Header'
 
 interface RouterContext {
   queryClient: QueryClient
@@ -62,24 +61,12 @@ function RootLayout() {
       <head>
         <HeadContent />
       </head>
-      <body>
-        <div>
-        <div>
-      <Link to="/">
-        Home
-      </Link>{' '}
-      <Link to="/film/$id" params={{ id: '123' }}>
-        Movie
-      </Link>
-      <Link to="/wishlist">
-        Wishlist
-      </Link>
-    </div>
-        </div>
-        <hr />
-        <Outlet /> {/* Start rendering router matches */}
+      <body className="layout">
+        <Header />
+        <main className="layout__main">
+          <Outlet /> {/* Start rendering router matches */}
+        </main>
         <TanStackRouterDevtools position="bottom-right" />
-        <Scripts />
       </body>
     </html>
   )

@@ -1,0 +1,261 @@
+@use 'sass:color';
+@use 'variables' as *;
+
+// ============================================================
+// Category-based Theme Differentiation
+//
+// Each category applies:
+//   1. A different Google Font (font-family)
+//   2. A different button style (shape, colors, hover)
+//   3. A different accent color palette (borders, highlights, tags)
+//   4. A different card hover effect
+//
+// Applied via `.theme--{category}` on the detail page wrapper.
+// BEM modifier classes on standalone blocks:
+//   `.btn--{category}`, `.carousel--{category}`, `.film-card--{category}`
+// ============================================================
+
+// --- Theme: Action ---
+.theme--action {
+  font-family: $font-action;
+
+  .film-detail__title {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .film-detail__tag {
+    background: $action-bg;
+    color: $action-secondary;
+    border: 1px solid $action-primary;
+  }
+
+  .film-detail__rating {
+    color: $action-primary;
+  }
+
+  .film-detail__heading {
+    border-left: 4px solid $action-primary;
+    padding-left: $space-md;
+  }
+}
+
+.btn--action {
+  background: linear-gradient(135deg, $action-primary, color.adjust($action-primary, $lightness: -10%));
+  color: #fff;
+  border: none;
+  border-radius: $radius-sm;
+  text-transform: uppercase;
+  font-family: $font-action;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  &:hover {
+    background: linear-gradient(135deg, $action-secondary, $action-primary);
+    box-shadow: 0 4px 20px rgba($action-primary, 0.4);
+    transform: translateY(-2px);
+  }
+
+  &.btn--active {
+    background: transparent;
+    border: 2px solid $action-primary;
+    color: $action-primary;
+
+    &:hover {
+      background: $action-bg;
+    }
+  }
+}
+
+.carousel--action {
+  .carousel__title {
+    color: $action-primary;
+    font-family: $font-action;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .carousel__btn {
+    border-color: $action-primary;
+    color: $action-primary;
+
+    &:hover:not(:disabled) {
+      background: $action-primary;
+      color: #fff;
+    }
+  }
+}
+
+.film-card--action {
+  .film-card__overlay {
+    background: linear-gradient(transparent, rgba($action-primary, 0.7));
+  }
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba($action-primary, 0.25);
+  }
+}
+
+// --- Theme: Comedy ---
+.theme--comedy {
+  font-family: $font-comedy;
+
+  .film-detail__title {
+    font-weight: 800;
+  }
+
+  .film-detail__tag {
+    background: $comedy-bg;
+    color: $comedy-primary;
+    border: 1px solid $comedy-secondary;
+    border-radius: $radius-xl;
+  }
+
+  .film-detail__rating {
+    color: $comedy-primary;
+  }
+
+  .film-detail__heading {
+    border-left: 4px solid $comedy-primary;
+    padding-left: $space-md;
+  }
+}
+
+.btn--comedy {
+  background: linear-gradient(135deg, $comedy-primary, $comedy-secondary);
+  color: $color-bg;
+  border: none;
+  border-radius: 50px;
+  font-family: $font-comedy;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+
+  &:hover {
+    background: linear-gradient(135deg, $comedy-secondary, $comedy-primary);
+    box-shadow: 0 4px 20px rgba($comedy-primary, 0.4);
+    transform: translateY(-2px);
+  }
+
+  &.btn--active {
+    background: transparent;
+    border: 2px solid $comedy-primary;
+    color: $comedy-primary;
+
+    &:hover {
+      background: $comedy-bg;
+    }
+  }
+}
+
+.carousel--comedy {
+  .carousel__title {
+    color: $comedy-primary;
+    font-family: $font-comedy;
+    font-weight: 800;
+  }
+
+  .carousel__btn {
+    border-color: $comedy-primary;
+    color: $comedy-primary;
+    border-radius: 50%;
+
+    &:hover:not(:disabled) {
+      background: $comedy-primary;
+      color: $color-bg;
+    }
+  }
+}
+
+.film-card--comedy {
+  .film-card__overlay {
+    background: linear-gradient(transparent, rgba($comedy-primary, 0.6));
+  }
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba($comedy-primary, 0.2);
+  }
+}
+
+// --- Theme: documentary ---
+.theme--documentary {
+  font-family: $font-documentary;
+
+  .film-detail__title {
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  .film-detail__tag {
+    background: $documentary-bg;
+    color: $documentary-secondary;
+    border: 1px solid $documentary-primary;
+    border-radius: 0;
+    font-style: italic;
+  }
+
+  .film-detail__rating {
+    color: $documentary-primary;
+  }
+
+  .film-detail__heading {
+    border-left: 4px solid $documentary-primary;
+    padding-left: $space-md;
+  }
+}
+
+.btn--documentary {
+  background: transparent;
+  color: $documentary-primary;
+  border: 2px solid $documentary-primary;
+  border-radius: 0;
+  font-family: $font-documentary;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.04em;
+
+  &:hover {
+    background: $documentary-primary;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba($documentary-primary, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &.btn--active {
+    background: $documentary-primary;
+    color: #fff;
+
+    &:hover {
+      background: transparent;
+      color: $documentary-primary;
+    }
+  }
+}
+
+.carousel--documentary {
+  .carousel__title {
+    color: $documentary-primary;
+    font-family: $font-documentary;
+    font-style: italic;
+  }
+
+  .carousel__btn {
+    border-color: $documentary-primary;
+    color: $documentary-primary;
+    border-radius: 0;
+
+    &:hover:not(:disabled) {
+      background: $documentary-primary;
+      color: #fff;
+    }
+  }
+}
+
+.film-card--documentary {
+  .film-card__overlay {
+    background: linear-gradient(transparent, rgba($documentary-primary, 0.6));
+  }
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba($documentary-primary, 0.2);
+  }
+}
