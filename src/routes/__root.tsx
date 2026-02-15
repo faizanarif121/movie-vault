@@ -51,7 +51,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         : []),
       {
         type: 'module',
-        src: ctx.match.context.clientEntryScript || '/src/entry-client.tsx',
+        src: import.meta.env.PROD ? ctx.match.context.clientEntryScript: '/src/entry-client.tsx',
       },
     ],
   }),
