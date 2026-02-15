@@ -30,6 +30,7 @@ const clientBuildConfig: BuildEnvironmentOptions = {
   emitAssets: true,
   copyPublicDir: true,
   emptyOutDir: true,
+  manifest: true,
   rollupOptions: {
     input: path.resolve(__dirname, 'src/entry-client.tsx'),
     output: {

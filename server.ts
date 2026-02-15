@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
@@ -6,6 +7,9 @@ import type { ViteDevServer } from 'vite';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 3001;
+
+let cssAssets: string[] = [];
+let clientEntryScript = '';
 
 async function createServer() {
   const app = express();
@@ -35,22 +39,19 @@ async function createServer() {
         return;
       }
 
-      // Build head content: Vite HMR scripts (dev) + client entry script
-      let head = '';
+      // Scripts and CSS links are defined in __root.tsx head() config.
+      // In dev, Vite's transformIndexHtml injects HMR client scripts.
       if (!isProduction && vite) {
-        const transformedHtml = await vite.transformIndexHtml(
-          url,
-          '<html><head></head><body></body></html>'
-        );
-        head = transformedHtml.substring(
-          transformedHtml.indexOf('<head>') + 6,
-          transformedHtml.indexOf('</head>')
-        );
-        // Add the client entry script so the browser loads and hydrates
-        head += `\n<script type="module" src="/src/entry-client.tsx"></script>`;
+        // Dev: Vite handles injection, but we point to the source
+        clientEntryScript = '/src/entry-client.tsx';
       } else {
-        // Production: reference the built client entry
-        head = `<script type="module" src="/static/entry-client.js"></script>`;
+        // Prod: Read the manifest
+        const manifestPath = path.resolve(__dirname, 'dist/client/.vite/manifest.json');
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+        
+        const entry = manifest['src/entry-client.tsx'];
+        clientEntryScript = `/${entry.file}`;
+        cssAssets = entry.css ? entry.css.map((file: string) => `/${file}`) : [];
       }
 
       // Load the server entry module
@@ -64,8 +65,8 @@ async function createServer() {
       })();
 
       // TanStack Router handles rendering, data fetching, and serialization
-      await entry.render({ req, res, head });
-    } catch (e) {
+      await entry.render({ req, res, cssAssets, clientEntryScript });
+      } catch (e) {
       if (!isProduction && vite) {
         vite.ssrFixStacktrace(e as Error);
       }

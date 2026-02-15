@@ -10,11 +10,13 @@ import type express from 'express';
 export async function render({
   req,
   res,
-  head = '',
+  cssAssets = [],
+  clientEntryScript,
 }: {
-  head?: string;
   req: express.Request;
   res: express.Response;
+  cssAssets?: string[];
+  clientEntryScript: string;
 }) {
   // Convert Express request to Web API Request #https://tanstack.com/router/v1/docs/framework/react/guide/ssr#rendering-the-application-on-the-server
   const protocol = req.protocol || 'http';
@@ -38,11 +40,12 @@ export async function render({
     createRouter: () => {
       const router = createRouter();
 
-      // Inject Vite's head content (HMR scripts in dev)
+      // Inject head content and CSS paths into router context, so that they can be accessed in the root route for proper HTML head generation
       router.update({
         context: {
           ...router.options.context,
-          head,
+          cssAssets,
+          clientEntryScript,
         },
       });
 

@@ -2,6 +2,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import {
   HeadContent,
   Outlet,
+  Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import type { QueryClient } from '@tanstack/react-query'
@@ -9,12 +10,16 @@ import Header from '@/components/Header'
 
 interface RouterContext {
   queryClient: QueryClient
-  head: string
+  cssAssets?: string[]
+  clientEntryScript?: string 
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  head: () => ({
-    links: [{ rel: 'icon', href: '/images/favicon.ico' }],
+  head: (ctx) => ({
+    links: [
+      { rel: 'icon', href: '/images/favicon.ico' },
+      ...(ctx.match.context.cssAssets?.map((href) => ({ rel: 'stylesheet', href })) || []),
+    ],
     meta: [
       {
         title: 'Movie Vault App to show off movies and add them to a wishlist',
@@ -46,9 +51,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         : []),
       {
         type: 'module',
-        src: import.meta.env.PROD
-          ? '/static/entry-client.js'
-          : '/src/entry-client.tsx',
+        src: ctx.match.context.clientEntryScript || '/src/entry-client.tsx',
       },
     ],
   }),
@@ -67,6 +70,7 @@ function RootLayout() {
           <Outlet /> {/* Start rendering router matches */}
         </main>
         <TanStackRouterDevtools position="bottom-right" />
+        <Scripts />
       </body>
     </html>
   )
