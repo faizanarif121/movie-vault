@@ -11,6 +11,25 @@ const port = process.env.PORT || 3001;
 let cssAssets: string[] = [];
 let clientEntryScript = '';
 
+let manifestCache: Record<string, unknown> | null = null;
+
+function loadManifest() {
+  if (!isProduction) return null;
+  
+  if (manifestCache) {
+    return manifestCache;
+  }
+
+  try {
+    const manifestPath = path.resolve(__dirname, 'dist/client/.vite/manifest.json');
+    manifestCache = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+    return manifestCache;
+  } catch (error) {
+    console.error('Failed to load manifest:', error);
+    return null;
+  }
+}
+
 async function createServer() {
   const app = express();
 
@@ -45,13 +64,16 @@ async function createServer() {
         // Dev: Vite handles injection, but we point to the source
         clientEntryScript = '/src/entry-client.tsx';
       } else {
-        // Prod: Read the manifest
-        const manifestPath = path.resolve(__dirname, 'dist/client/.vite/manifest.json');
-        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+        // Prod: Read from cached manifest
+        const manifest = loadManifest();
+        if (!manifest) {
+          res.status(500).end('Failed to load manifest');
+          return;
+        }
         
-        const entry = manifest['src/entry-client.tsx'];
+        const entry = (manifest as Record<string, Record<string, unknown>>)['src/entry-client.tsx'];
         clientEntryScript = `/${entry.file}`;
-        cssAssets = entry.css ? entry.css.map((file: string) => `/${file}`) : [];
+        cssAssets = entry.css ? (entry.css as string[]).map((file: string) => `/${file}`) : [];
       }
 
       // Load the server entry module
