@@ -198,15 +198,6 @@ button {
   to { transform: rotate(360deg); }
 }
 
-.error {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40vh;
-  color: $action-primary;
-  font-size: 1.1rem;
-}
-
 .home {
   &__hero {
     padding: $space-3xl $container-pad $space-2xl;
@@ -612,5 +603,43 @@ button {
   &__action {
     margin-top: auto;
     align-self: flex-start;
+  }
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: $space-lg $container-pad;
+
+  &__content {
+    text-align: center;
+    max-width: 500px;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: $space-md;
+    color: $action-primary;
+  }
+
+  &__message {
+    color: $color-text-muted;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: $space-xl;
+  }
+
+  .btn {
+    background: $action-primary;
+    color: #fff;
+    border-radius: $radius-md;
+    border: none;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 }
