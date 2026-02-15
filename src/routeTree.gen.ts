@@ -8,21 +8,26 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WishlistIndexRouteImport } from './routes/wishlist/index'
 import { Route as FilmIdRouteImport } from './routes/film/$id'
+
+const WishlistIndexLazyRouteImport = createFileRoute('/wishlist/')()
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WishlistIndexRoute = WishlistIndexRouteImport.update({
+const WishlistIndexLazyRoute = WishlistIndexLazyRouteImport.update({
   id: '/wishlist/',
   path: '/wishlist/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() =>
+  import('./routes/wishlist/index.lazy').then((d) => d.Route),
+)
 const FilmIdRoute = FilmIdRouteImport.update({
   id: '/film/$id',
   path: '/film/$id',
@@ -32,18 +37,18 @@ const FilmIdRoute = FilmIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/film/$id': typeof FilmIdRoute
-  '/wishlist/': typeof WishlistIndexRoute
+  '/wishlist/': typeof WishlistIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/film/$id': typeof FilmIdRoute
-  '/wishlist': typeof WishlistIndexRoute
+  '/wishlist': typeof WishlistIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/film/$id': typeof FilmIdRoute
-  '/wishlist/': typeof WishlistIndexRoute
+  '/wishlist/': typeof WishlistIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -56,7 +61,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FilmIdRoute: typeof FilmIdRoute
-  WishlistIndexRoute: typeof WishlistIndexRoute
+  WishlistIndexLazyRoute: typeof WishlistIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -72,7 +77,7 @@ declare module '@tanstack/react-router' {
       id: '/wishlist/'
       path: '/wishlist'
       fullPath: '/wishlist/'
-      preLoaderRoute: typeof WishlistIndexRouteImport
+      preLoaderRoute: typeof WishlistIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/film/$id': {
@@ -88,7 +93,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FilmIdRoute: FilmIdRoute,
-  WishlistIndexRoute: WishlistIndexRoute,
+  WishlistIndexLazyRoute: WishlistIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
