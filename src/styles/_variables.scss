@@ -25,11 +25,11 @@ $documentary-secondary:    #6ba3c7;
 $documentary-accent:       #5e9ecf;
 $documentary-bg:           rgba(69, 123, 157, 0.08);
 
-// Typography - Category Fonts
-$font-base:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$font-action:        'Oswald', 'Impact', sans-serif;
-$font-comedy:        'Nunito', 'Trebuchet MS', sans-serif;
-$font-documentary:         'Playfair Display', 'Georgia', serif;
+// Typography - Category Fonts (with size-adjusted fallbacks for reduced CLS)
+$font-base:          'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-action:        'Oswald', 'Oswald Fallback', 'Impact', sans-serif;
+$font-comedy:        'Nunito', 'Nunito Fallback', 'Trebuchet MS', sans-serif;
+$font-documentary:   'Playfair Display', 'Playfair Display Fallback', 'Georgia', serif;
 
 // Spacing
 $space-xs:  0.25rem;

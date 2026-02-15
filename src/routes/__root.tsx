@@ -18,6 +18,12 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   head: (ctx) => ({
     links: [
       { rel: 'icon', href: '/images/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@700&family=Nunito:wght@800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,700&display=swap',
+      },
       ...(ctx.match.context.cssAssets?.map((href) => ({ rel: 'stylesheet', href })) || []),
     ],
     meta: [
