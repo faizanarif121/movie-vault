@@ -16,7 +16,6 @@ export function createRouter() {
     routeTree,
     context: {
       queryClient,
-      head: '',
     },
     defaultPreload: 'intent',
   });
