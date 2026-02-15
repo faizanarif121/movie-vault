@@ -18,6 +18,7 @@ export function createRouter() {
       queryClient,
     },
     defaultPreload: 'intent',
+    scrollRestoration: true,
   });
 
   setupRouterSsrQueryIntegration({
