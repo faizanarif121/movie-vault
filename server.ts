@@ -59,7 +59,6 @@ async function createServer() {
         if (!isProduction && vite) {
           return vite.ssrLoadModule('/src/entry-server.tsx');
         } else {
-          // @ts-ignore - dist module exists after build
           return import('./dist/server/entry-server.js');
         }
       })();

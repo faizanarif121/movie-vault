@@ -73,7 +73,7 @@ export async function render({
 
   // Stream response body to Express
   if (response.body) {
-    return pipeline(response.body as any, res);
+    return pipeline(response.body, res);
   }
 
   res.end();
